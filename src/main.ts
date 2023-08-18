@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,9 +13,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  const port = app.get(ConfigService).get('app.port')
   
-  await app.listen(3000, () => {
-    console.log('Swagger Local: http://localhost:3000/api')
+  await app.listen(port, () => {
+    console.log(`Swagger Local: http://localhost:${port}/api`)
   });
 }
 bootstrap();
