@@ -1,21 +1,23 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { CountryService } from "./country.service";
-import { Country } from "./country.model";
 import { CreateCountryDto } from "./country.dto";
+import { TCountryResponse } from "./country.transform";
 
 @ApiTags('Countries')
 @Controller('Countries')
 export class CountryController {
     constructor(private readonly countryService: CountryService) { }
 
+    @ApiOkResponse({ type: [TCountryResponse] })
     @Get()
-    async getCats(): Promise<Country[] | null> {
-        return await this.countryService.findAll();
+    getCountry(): Promise<TCountryResponse[]> {
+        return this.countryService.findAll();
     }
 
+    @ApiCreatedResponse({ type: TCountryResponse })
     @Post()
-    async create(@Body() cat: CreateCountryDto): Promise<Country> {
-        return await this.countryService.create(cat);
+    createCountry(@Body() data: CreateCountryDto): Promise<TCountryResponse> {
+        return this.countryService.create(data);
     }
 }

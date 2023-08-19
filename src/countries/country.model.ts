@@ -1,6 +1,6 @@
 import { Ref, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
-import { User } from "src/users/user.model";
+import { User } from "../users/user.model";
 
 export class Country extends TimeStamps {
     @prop({ required: true })
@@ -28,5 +28,5 @@ export class Country extends TimeStamps {
     continentCode: string
 
     @prop({ ref: () => User })
-    uers: Ref<User>[]
+    user: Ref<User>[]
 }

@@ -2,7 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "nestjs-typegoose";
 import { User } from "./user.model";
 import { ReturnModelType } from "@typegoose/typegoose";
-import { AuthRegisterDto } from "src/auth/auth.dto";
+import { TUserResponse } from "./user.transform";
+import { transformArray } from "../utils/transform.util";
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,8 @@ export class UserService {
         private userModel: ReturnModelType<typeof User>
     ) { }
 
-    async getUsers(): Promise<User[]> {
-        return this.userModel.find()
+    async getUsers(): Promise<TUserResponse[]> {
+        const data = await this.userModel.find()
+        return transformArray(TUserResponse, data)
     }
 }

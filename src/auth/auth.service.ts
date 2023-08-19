@@ -2,11 +2,11 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { AuthLoginDto, AuthRegisterDto } from "./auth.dto";
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from "nestjs-typegoose";
-import { User } from "src/users/user.model";
 import { ReturnModelType } from "@typegoose/typegoose";
-import { Country } from "src/countries/country.model";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
+import { Country } from "../countries/country.model";
+import { User } from "../users/user.model";
 
 @Injectable()
 export class AuthService {
@@ -30,7 +30,7 @@ export class AuthService {
         dob,
         countryCode: code,
     }: AuthRegisterDto) {
-        const user = await this.userModel.findOne({ email }).exec()
+        const user = await this.userModel.findOne({ email })
         if (user) throw new BadRequestException('User already exist!')
         
         

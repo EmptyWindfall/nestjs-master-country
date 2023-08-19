@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
-import { IsString, Length } from "class-validator";
+import { IsString, Length, ValidateIf } from "class-validator";
 
 export class CreateCountryDto {
     @ApiProperty({ required: true })
@@ -15,15 +15,17 @@ export class CreateCountryDto {
     code: string
 
     @ApiPropertyOptional()
+    @ValidateIf(({ alpha3 }) => alpha3 !== undefined)
     @Length(3, 3)
     @IsString()
     @Expose()
-    alpha3: string
+    alpha3?: string
 
     @ApiPropertyOptional()
+    @ValidateIf(({ phoneCode }) => phoneCode !== undefined)
     @IsString()
     @Expose()
-    phoneCode: string
+    phoneCode?: string
 
     @ApiProperty({ required: true })
     @IsString()
@@ -31,17 +33,20 @@ export class CreateCountryDto {
     capital: string
 
     @ApiPropertyOptional()
+    @ValidateIf(({ currency }) => currency !== undefined)
     @IsString()
     @Expose()
-    currency: string
+    currency?: string
 
     @ApiPropertyOptional()
+    @ValidateIf(({ continent }) => continent !== undefined)
     @IsString()
     @Expose()
-    continent: string
+    continent?: string
 
     @ApiPropertyOptional()
+    @ValidateIf(({ continentCode }) => continentCode !== undefined)
     @IsString()
     @Expose()
-    continentCode: string
+    continentCode?: string
 }

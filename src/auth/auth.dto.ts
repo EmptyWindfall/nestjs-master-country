@@ -21,7 +21,7 @@ export class AuthRegisterDto {
     @Length(4, 16)
     @IsString()
     @Expose()
-    username: string
+    username?: string
 
     @ApiProperty({ required: true })
     @Length(8, 20)
@@ -38,25 +38,25 @@ export class AuthRegisterDto {
     @ValidateIf(({ fName }) => fName !== undefined)
     @IsString()
     @Expose()
-    fName: string
+    fName?: string
 
     @ApiPropertyOptional()
     @ValidateIf(({ lName }) => lName !== undefined)
     @IsString()
     @Expose()
-    lName: string
+    lName?: string
 
     @ApiPropertyOptional()
     @ValidateIf(({ mName }) => mName !== undefined)
     @IsString()
     @Expose()
-    mName: string
+    mName?: string
 
     @ApiPropertyOptional()
     @ValidateIf(({ dob }) => dob !== undefined)
     @IsDateString()
     @Expose()
-    dob: Date
+    dob?: Date
 
     @ApiProperty({ required: true })
     @IsNotEmpty()

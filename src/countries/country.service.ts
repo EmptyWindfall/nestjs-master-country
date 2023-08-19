@@ -3,20 +3,23 @@ import { InjectModel } from "nestjs-typegoose";
 import { Country } from "./country.model";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { CreateCountryDto } from "./country.dto";
+import { transformArray, transformObject } from "../utils/transform.util";
+import { TCountryResponse } from "./country.transform";
 
 @Injectable()
 export class CountryService {
     constructor(
         @InjectModel(Country)
-        private catModel: ReturnModelType<typeof Country>
+        private countryModel: ReturnModelType<typeof Country>
     ) { }
 
-    async create(createCatDto: CreateCountryDto): Promise<Country> {
-        const createdCat = new this.catModel(createCatDto);
-        return createdCat.save();
+    async create(data: CreateCountryDto): Promise<TCountryResponse> {
+        const result = await this.countryModel.create(data)
+        return transformObject(TCountryResponse, result)
     }
 
-    async findAll(): Promise<Country[] | null> {
-        return this.catModel.find().exec();
+    async findAll(): Promise<TCountryResponse[]> {
+        const result = await this.countryModel.find()
+        return transformArray(TCountryResponse, result)
     }
 }
