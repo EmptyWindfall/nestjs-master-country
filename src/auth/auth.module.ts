@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { AuthService } from "./auth.service";
@@ -6,6 +6,7 @@ import { AuthController } from "./auth.controller";
 import { User } from "src/users/user.model";
 import { TypegooseModule } from "nestjs-typegoose";
 import { Country } from "src/countries/country.model";
+import { LoggerMiddleware } from "../_common/middlewares/log.middleware";
 
 @Module({
     imports: [
@@ -26,4 +27,8 @@ import { Country } from "src/countries/country.model";
     controllers: [AuthController],
     exports: [AuthService, JwtModule, ConfigModule],
 })
-export class AuthModule { }
+export class AuthModule {
+    configure(consumer: MiddlewareConsumer): void {
+        consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
+}
