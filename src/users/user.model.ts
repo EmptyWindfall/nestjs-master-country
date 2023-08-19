@@ -3,14 +3,11 @@ import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses"
 import { Country } from "src/countries/country.model"
 
 export class User extends TimeStamps {
-    @prop({ required: true })
-    name: string
+    @prop()
+    username: string
 
     @prop({ required: true })
-    pass: string
-
-    @prop({ required: true })
-    passSalt: string
+    hashedPass: string
 
     @prop({ required: true })
     email: string

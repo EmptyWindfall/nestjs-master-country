@@ -7,6 +7,7 @@ import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { DatabaseModule } from './database/database.module';
 import { CountryModule } from './countries/country.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CountryModule } from './countries/country.module';
     }),
     DatabaseModule,
     CountryModule,
+    AuthModule,
     CatsModule,
   ],
   controllers: [AppController],
