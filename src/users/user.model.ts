@@ -13,13 +13,13 @@ export class User extends TimeStamps {
     email: string
 
     @prop()
-    fname: string
+    fName: string
 
     @prop()
-    lname: string
+    lName: string
 
     @prop()
-    mname: string
+    mName: string
 
     @prop()
     dob: Date

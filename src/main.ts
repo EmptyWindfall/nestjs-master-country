@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,10 +19,21 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const port = app.get(ConfigService).get('app.port')
-
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    transformOptions: {
+      excludeExtraneousValues: true,
+      excludePrefixes: ['_'],
+    }
+  }));
+  
+  const configService = app.get<ConfigService>(ConfigService)
+  const port = configService.get('app.port')
+  const nodeEnv = configService.get('app.nodeEnv')
   await app.listen(port, () => {
-    console.log(`Swagger Local: http://localhost:${port}/api`)
+    if (nodeEnv === 'development') {
+      console.log(`Swagger: http://localhost:${port}/api`)
+    }
   });
 }
 bootstrap();

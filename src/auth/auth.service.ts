@@ -20,7 +20,16 @@ export class AuthService {
         private configService: ConfigService,
     ) {}
 
-    async register({ name, pass, email, countryCode: code }: AuthRegisterDto) {
+    async register({ 
+        username, 
+        password, 
+        email,
+        fName,
+        lName,
+        mName,
+        dob,
+        countryCode: code,
+    }: AuthRegisterDto) {
         const user = await this.userModel.findOne({ email }).exec()
         if (user) throw new BadRequestException('User already exist!')
         
@@ -28,12 +37,16 @@ export class AuthService {
         const country = await this.countryModel.findOne({ code })
         if (!country) throw new NotFoundException('Country doesn\'t exist!')
 
-        const hashedPass = await bcrypt.hash(pass, 12);
+        const hashedPass = await bcrypt.hash(password, 12);
         await this.userModel.create({
-            username: name.toLocaleLowerCase(),
+            username: username.toLocaleLowerCase(),
             hashedPass,
             country,
             email,
+            fName,
+            lName,
+            mName,
+            dob,
         });
     }
 
