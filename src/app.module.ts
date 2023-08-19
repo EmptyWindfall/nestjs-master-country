@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsModule } from './cats/cat.module';
 import { ConfigModule } from '@nestjs/config';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { DatabaseModule } from './database/database.module';
 import { CountryModule } from './countries/country.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     CountryModule,
     AuthModule,
-    CatsModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

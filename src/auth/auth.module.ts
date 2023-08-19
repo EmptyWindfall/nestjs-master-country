@@ -24,6 +24,6 @@ import { Country } from "src/countries/country.model";
     ],
     providers: [AuthService],
     controllers: [AuthController],
-    exports: [AuthService],
+    exports: [AuthService, JwtModule, ConfigModule],
 })
 export class AuthModule { }
