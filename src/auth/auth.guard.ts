@@ -6,11 +6,20 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { Request } from 'express';
+import { InjectModel } from 'nestjs-typegoose';
+import { User } from '../users/user.model';
+import * as mongoose from 'mongoose';
+import { transformObject } from '../_common/utils/transform.util';
+import { TUserResponse } from '../users/user.transform';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
+        @InjectModel(User) 
+        private userModel: ReturnModelType<typeof User>,
+        // services
         private jwtService: JwtService,
         private configService: ConfigService,
     ) { }
@@ -24,8 +33,11 @@ export class AuthGuard implements CanActivate {
         try {
             const secret = this.configService.get<string>('app.jwtSecret')
             const payload = await this.jwtService.verifyAsync(token, { secret });
-
-            request['user'] = payload;
+            
+            const userObjectId = new mongoose.Types.ObjectId(payload.id)
+            const user = await this.userModel.findById(userObjectId)
+            
+            request['user'] = transformObject(TUserResponse, user);
         } catch {
             throw new UnauthorizedException();
         }

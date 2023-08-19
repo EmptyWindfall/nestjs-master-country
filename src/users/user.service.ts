@@ -3,7 +3,7 @@ import { InjectModel } from "nestjs-typegoose";
 import { User } from "./user.model";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { TUserResponse } from "./user.transform";
-import { transformArray } from "../utils/transform.util";
+import { transformArray } from "../_common/utils/transform.util";
 
 @Injectable()
 export class UserService {

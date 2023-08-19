@@ -15,7 +15,7 @@ import { Country } from "src/countries/country.model";
             useFactory: async (configService: ConfigService) => ({
                 secret: configService.get('app.jwtSecret'),
                 signOptions: {
-                    expiresIn: 3600,
+                    expiresIn: '1d',
                 },
             }),
             inject: [ConfigService],

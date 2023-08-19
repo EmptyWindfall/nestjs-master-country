@@ -3,7 +3,7 @@ import { InjectModel } from "nestjs-typegoose";
 import { Country } from "./country.model";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { CreateCountryDto } from "./country.dto";
-import { transformArray, transformObject } from "../utils/transform.util";
+import { transformArray, transformObject } from "../_common/utils/transform.util";
 import { TCountryResponse } from "./country.transform";
 
 @Injectable()
